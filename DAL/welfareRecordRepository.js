@@ -29,10 +29,7 @@ export async function chengeBenefitPeriod(soldierId, benefitType, details, decis
     const record = await connectDb.updateOne({
         soldierId: soldierId
     }, {
-        $set: {
-            currentBenefitType: benefitType,
-        }
-    }, {
+        $set: {currentBenefitType: benefitType},
         $push: {
             history: {
                 startDate: new Date(),
@@ -45,5 +42,8 @@ export async function chengeBenefitPeriod(soldierId, benefitType, details, decis
     })
     return getBenefitsById(record.insertedId)
 }
-// הפונקצייה עובדת רק לא מעדכן את הנתונים כמו שצריך
+// צריך להוסיף סיום ההטבה ולהחזיר את הרשומה
+
+
+
 
