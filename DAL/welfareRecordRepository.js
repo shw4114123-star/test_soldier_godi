@@ -1,12 +1,26 @@
 import { connectDb } from "../db/welfareRecordDB.js";
 
-export async function create(body) {
-    const date = Date()
+export async function createBenefitRecord(soldierId, unit, benefitType, details, decisionReason, budgetApproved) {
     const record = await connectDb.insertOne({
-        ...body,
-        history: {
-            $push: { history: { startDate: date }}
-        }
-    })
+        soldierId,
+        unit,
+        currentBenefitType: benefitType,
+        history:
+            [
+                {
+                    startDate: new Date(),
+                    decisionReason,
+                    budgetApproved,
+                    benefitType,
+                    details
+                }
+            ]
+    }
+    )
     return record.insertedId
+}
+
+export async function getBenefitsById(soldierId) {
+    const soldier = await connectDb.findOne({ soldierId: soldierId })
+    return soldier
 }
