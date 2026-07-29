@@ -1,4 +1,5 @@
 import { createSpend, getTransactionById } from "../DAL/spendTransactionRepository.js"
+import { checkAllotmentId } from "../services/spendTransactionService.js"
 
 
 export const createSpends = async (req, res) => {
@@ -9,7 +10,11 @@ export const createSpends = async (req, res) => {
 }
 
 export const getTransction = async (req, res) => {
-    const { id } = req.params
-    const transactions = await getTransactionById(id)
-    res.json(transactions)
+    try {
+        const { id } = req.params
+        const transactions = await checkAllotmentId(id)
+        res.json(transactions)
+    } catch (error) {
+        res.status(error.status).json(error.message)
+    }
 }
