@@ -1,19 +1,10 @@
 import express from "express";
-import { createsupa, grtAllocations } from "../DAL/budgetAllocationRepository.js";
-
+import { createbudgets, getOctions } from "../controller/budgetAllocationcontroller.js";
 
 const router = express.Router()
 
-router.post("/budget", async (req, res) => {
-    const body = req.body
-    const data = await createsupa(body)
-    res.status(201).json("New assignment")
-})
+router.post("/budget", createbudgets)
 
-router.get("/budget", async (req, res) =>{
-    const {unit, month, benefitType} = req.query
-    const budget = await grtAllocations(unit, month, benefitType)
-    res.json(budget)
-})
+router.get("/budget", getOctions)
 
 export default router

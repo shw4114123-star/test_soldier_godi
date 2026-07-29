@@ -14,6 +14,7 @@ export async function getTransactionById(id) {
     return data
 }
 
+// פונקצייה בשביל החישובים
 export async function getTransactionByBudgetId(id) {
     const { data, error } = await client.from("spendTransaction").select().eq("budgetId", id)
     if (error) console.error(error);

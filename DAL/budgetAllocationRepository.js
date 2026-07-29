@@ -2,7 +2,7 @@ import { log } from "node:console";
 import client from "../db/budgetAllocation&spendTransactionDB.js";
 import { getTransactionByBudgetId } from "./spendTransactionRepository.js";
 
-export async function createsupa(body) {
+export async function createbudget(body) {
     const { data, error } = await client.from("budgetAllocation").insert({ ...body }).select()
     if (error) console.error(error);
     return data
@@ -14,7 +14,7 @@ export async function grtAllocations(unit, month, benefitType) {
     return CalculatingTheBudgetAndExpenses(data)
 }
 
-
+// פונקציית החישובים
 export async function CalculatingTheBudgetAndExpenses(data) {
     const newData = []
     let id = null
