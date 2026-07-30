@@ -8,7 +8,7 @@ export async function createbudget(body) {
     return data
 }
 
-export async function grtAllocations(unit, month, benefitType) {
+export async function grtAllocations() {
     const { data, error } = await client.from("budgetAllocation").select()
     if (error) console.error(error);
     return CalculatingTheBudgetAndExpenses(data)
