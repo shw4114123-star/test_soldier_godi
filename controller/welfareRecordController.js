@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { createBenefitRecord, getBenefitsById, chengeBenefitPeriod } from "../DAL/welfareRecordRepository.js";
-import { checkSoldierId, checkBenefitBody } from "../services/welfareRecordService.js";
+import { checkSoldierId, checkBenefitBody, checkUpdateBody } from "../services/welfareRecordService.js";
 
 
 export const createBenefit = async (req, res) => {
@@ -25,9 +25,12 @@ export const getById = async (req, res) => {
 }
 
 export const chengeBenefit = async (req, res) => {
-    const { benefitType, details, decisionReason, budgetApproved } = req.body
-    const { soldierId } = req.params
-    const benefits = await chengeBenefitPeriod(soldierId, benefitType, details, decisionReason, budgetApproved)
-    res.json(benefits)
-
+    try {
+        const { benefitType, details, decisionReason, budgetApproved } = req.body
+        const { soldierId } = req.params        
+        const benefits = await checkUpdateBody(soldierId, benefitType, details, decisionReason, budgetApproved)
+        res.json(benefits)
+    } catch (error) {
+        res.status(error.status).json(error.message)
+    }
 }

@@ -41,9 +41,9 @@ export async function chengeBenefitPeriod(soldierId, benefitType, details, decis
             }
         }
     })
-    return getBenefitsById(record.insertedId)
+    return getBenefitsById(soldierId)
 }
-// צריך להוסיף סיום ההטבה ולהחזיר את הרשומה
+// צריך להוסיף סיום ההטבה
 
 
 
