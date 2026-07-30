@@ -13,7 +13,7 @@ export async function checkBenefitBody(soldierId, unit, benefitType, details, de
     if (
         unit === undefined || typeof unit !== "string" || unit.trim() === "" ||
         benefitType === undefined || benefitType.trim() === "" ||
-        await moom(benefitType, details) ||
+        ["giftCard", "diningHall"].includes(benefitType) || await moom(benefitType, details) ||
         decisionReason === undefined || typeof decisionReason !== "string" || decisionReason.trim() === "" ||
         budgetApproved === undefined || typeof budgetApproved !== "boolean"
     ) throw createError(400, "not a correct body")
