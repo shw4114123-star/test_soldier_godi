@@ -2,22 +2,23 @@ import { log } from "node:console";
 import client from "../db/budgetAllocation&spendTransactionDB.js";
 import { getTransactionByBudgetId } from "./spendTransactionRepository.js";
 
-export async function createbudget(body) {
-    const { data, error } = await client.from("budgetAllocation").insert({ ...body }).select()
-    if (error) console.error(error);
+
+export async function createbudget(unit, month, benefitType, allocatedAmount) {
+    const { data, error } = await client.from("budgetAllocation").insert({ unit, month, benefitType, allocatedAmount }).select()
+    if (error) return error;
     return data
 }
 
 export async function grtAllocations() {
     const { data, error } = await client.from("budgetAllocation").select()
-    if (error) console.error(error);
+    if (error) return error;
     return CalculatingTheBudgetAndExpenses(data)
 }
 
 // פונקציה לשלוף את ההקצאת תקציב לפי מזהה בשביל לבדוק שבעסקת ניצול לא עולה על התקציב
 export async function getocationById(id) {
     const { data, error } = await client.from("budgetAllocation").select().eq("id", id)
-    if (error) console.error(error);
+    if (error) return error;
     return data
 }
 
@@ -40,7 +41,3 @@ export async function CalculatingTheBudgetAndExpenses(data) {
     }
     return newData
 }
-
-
-// .eq("unit", unit).eq("month", month).eq("benefitType", benefitType)
-// הפונקצייה מביאה את כל הנתונים הוולידציות אחר כך בservice

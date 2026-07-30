@@ -1,4 +1,4 @@
-import { grtAllocations } from "../DAL/budgetAllocationRepository.js"
+import { grtAllocations, createbudget } from "../DAL/budgetAllocationRepository.js"
 import { createError } from "./welfareRecordService.js"
 
 
@@ -13,6 +13,21 @@ export async function checkQueryToFilter(unit, month, benefitType) {
     if (benefitType) {
         allBUdget = allBUdget.filter(budget => budget.benefitType === benefitType)
     }
-    if (allBUdget.length === 0 || !allBUdget) throw createError(200, "not found budget with this parameters")
     return allBUdget
+}
+
+// חסר כמה בדיקות בנתיים
+export async function checkBodyAndAllotment(unit, month, benefitType, allocatedAmount) {
+    if (typeof unit !== "string" || typeof month !== "YYYY-MM" || benefitType ["giftCard", "diningHall"]) {
+        throw createError(400, "not a correct body")
+    }
+    const allBUdget = await checkQueryToFilter(unit, month, benefitType)
+    for (const budget of allBUdget) {
+        if (budget.unit === unit &&
+            budget.month === month &&
+            budget.benefitType === benefitType
+        )
+            throw createError(409, `There is already a ${benefitType} allocation for this unit this month.`)
+    }
+    return createbudget(unit, month, benefitType, allocatedAmount)
 }
