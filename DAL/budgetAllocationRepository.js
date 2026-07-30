@@ -14,6 +14,13 @@ export async function grtAllocations(unit, month, benefitType) {
     return CalculatingTheBudgetAndExpenses(data)
 }
 
+// פונקציה לשלוף את ההקצאת תקציב לפי מזהה בשביל לבדוק שבעסקת ניצול לא עולה על התקציב
+export async function getocationById(id) {
+    const { data, error } = await client.from("budgetAllocation").select().eq("id", id)
+    if (error) console.error(error);
+    return data
+}
+
 // פונקציית החישובים
 export async function CalculatingTheBudgetAndExpenses(data) {
     const newData = []

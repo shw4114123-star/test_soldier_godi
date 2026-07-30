@@ -2,10 +2,10 @@
 import client from "../db/budgetAllocation&spendTransactionDB.js"
 
 
-export async function createSpend(body, id) {
+export async function createSpend(body, id, remainingAmount) {
     const { data, error } = await client.from("spendTransaction").insert({ ...body, budgetId: id }).select()
     if (error) return error;
-    return data
+    return {...data[0], remainingAmount}
 }
 
 export async function getTransactionById(id) {
