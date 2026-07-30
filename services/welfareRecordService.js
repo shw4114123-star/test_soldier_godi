@@ -1,4 +1,4 @@
-import { getBenefitsById } from "../DAL/welfareRecordRepository.js"
+import { getBenefitsById, createBenefitRecord } from "../DAL/welfareRecordRepository.js"
 
 
 export function createError(status, message) {
@@ -7,21 +7,29 @@ export function createError(status, message) {
     return err
 }
 
-
-export async function checkBenefitBody(unit, benefitType, details, decisionReason, budgetApproved) {
-    return (
-        unit !== undefined &&
-        benefitType !== undefined &&
-        details !== undefined &&
-        decisionReason !== undefined &&
-        budgetApproved !== undefined
-    )
+//  || benefitType["giftCard", "diningHall"]
+export async function checkBenefitBody(soldierId, unit, benefitType, details, decisionReason, budgetApproved) {
+    if (await isSoldierBenefit(soldierId)) {
+        if (
+            unit === undefined || typeof unit !== "string" || unit.trim() === "" ||
+            benefitType === undefined || benefitType.trim() === "" ||
+            details === undefined || typeof details.cardProvider !== "string" || details.cardProvider.trim() === "" ||
+            typeof details.monthlyValus !== "number" ||
+            details.validMerchants.length < 1 ||
+            decisionReason === undefined || typeof decisionReason !== "string" || decisionReason.trim() === "" ||
+            budgetApproved === undefined || typeof budgetApproved !== "boolean"
+        ) throw createError(400, "not a correct body")
+        return createBenefitRecord(soldierId, unit, benefitType, details, decisionReason, budgetApproved)
+    }
 }
-// עדיין לא בדקתי את הפונקצייה
+
 
 export async function isSoldierBenefit(soldierId) {
+    const soldier = await getBenefitsById(soldierId)
+    if (soldier) throw createError(409, "This soldier already has a benefit record.")
+    return true
 }
-// לא בדקתי עדיין
+
 
 
 export async function checkSoldierId(soldierId) {

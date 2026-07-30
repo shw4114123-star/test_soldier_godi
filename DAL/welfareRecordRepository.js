@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { connectDb } from "../db/welfareRecordDB.js";
 
 export async function createBenefitRecord(soldierId, unit, benefitType, details, decisionReason, budgetApproved) {
