@@ -1,10 +1,10 @@
-FROM 
+FROM node:24.17.0
 
-WORKDIR app/
+WORKDIR / app 
 
-copy package* json
+COPY package*.json /
 
-RUN npm i
+RUN npm install
 
 COPY . .
 
