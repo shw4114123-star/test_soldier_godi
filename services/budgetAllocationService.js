@@ -1,7 +1,6 @@
 import { grtAllocations, createbudget } from "../DAL/budgetAllocationRepository.js"
 import { createError } from "./welfareRecordService.js"
 
-
 export async function checkQueryToFilter(unit, month, benefitType) {
     let allBUdget = await grtAllocations()
     if (unit) {
@@ -16,9 +15,9 @@ export async function checkQueryToFilter(unit, month, benefitType) {
     return allBUdget
 }
 
-// חסר כמה בדיקות בנתיים
+
 export async function checkBodyAndAllotment(unit, month, benefitType, allocatedAmount) {
-    if (typeof unit !== "string" || typeof month !== "YYYY-MM" || benefitType ["giftCard", "diningHall"]) {
+    if (typeof unit !== "string" || typeof month !== "string" || ["giftCard", "diningHall"].includes(benefitType)) {
         throw createError(400, "not a correct body")
     }
     const allBUdget = await checkQueryToFilter(unit, month, benefitType)

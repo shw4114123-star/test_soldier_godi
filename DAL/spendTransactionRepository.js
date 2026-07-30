@@ -10,7 +10,9 @@ export async function createSpend(body, id, remainingAmount) {
 
 export async function getTransactionById(id) {
     const { data, error } = await client.from("spendTransaction").select().eq("id", id)
-    if (error) return error;
+    if (error) console.log(error);;
+    
+    
     return data
 }
 

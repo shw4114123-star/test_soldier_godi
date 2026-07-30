@@ -1,6 +1,7 @@
 import { CalculatingTheBudgetAndExpenses, getocationById } from "../DAL/budgetAllocationRepository.js"
 import { createSpend, getTransactionById } from "../DAL/spendTransactionRepository.js"
 import { createError } from "../services/welfareRecordService.js"
+// import { repospend } from "../repo.js"
 
 export async function checkAllotmentId(id) {
     const allotment = await getTransactionById(id)
